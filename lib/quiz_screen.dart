@@ -29,7 +29,7 @@ class _QuizScreenState extends State<QuizScreen> {
                 children: [
                   SizedBox(height: 50),
                   for (Answer answer in allQuiz[quizIndex].answerList)
-                    AnswerWidget(quizOption: answer.answer),
+                    AnswerWidget(myAnswer: answer),
                 ],
               ),
               SizedBox(height: 60),
@@ -39,7 +39,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       quizIndex++;
                     });
                   },
-                  child: Text('Submit'))
+                  child: Text('Next Quiz'))
             ],
           ),
         ),
@@ -48,21 +48,39 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 }
 
-class AnswerWidget extends StatelessWidget {
-  final String quizOption;
-  const AnswerWidget({Key? key, required this.quizOption}) : super(key: key);
+class AnswerWidget extends StatefulWidget {
+  final Answer myAnswer;
+
+  const AnswerWidget({Key? key, required this.myAnswer}) : super(key: key);
+
+  @override
+  State<AnswerWidget> createState() => _AnswerWidgetState();
+}
+
+class _AnswerWidgetState extends State<AnswerWidget> {
+  Color answerColor = Colors.indigo;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        print(widget.myAnswer.answer);
+        setState(() {
+          if (widget.myAnswer.isCorrect == true) {
+            answerColor = Colors.green;
+          } else {
+            answerColor = Colors.red;
+          }
+        });
+      },
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 24),
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.indigo,
+          color: answerColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(quizOption),
+        child: Text(widget.myAnswer.answer),
       ),
     );
   }

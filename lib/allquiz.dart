@@ -58,7 +58,6 @@ List<Quiz> allQuiz = [
       Answer(answer: 'Hippopotamus', isCorrect: false),
     ],
   ),
-  // Add more Quiz objects here...
   Quiz(
     question: 'Which planet is known as the "Red Planet"?',
     answerList: [
