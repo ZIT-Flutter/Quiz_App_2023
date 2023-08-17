@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:class_3/result_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'allquiz.dart';
@@ -18,6 +19,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Color selectedColor = Colors.yellow;
 
+  int score = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,7 @@ class _QuizScreenState extends State<QuizScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 70),
-                Text('${allQuiz.length}'),
+                Text('${quizIndex + 1} / ${allQuiz.length}'),
                 Text(
                   allQuiz[quizIndex].question,
                   textScaleFactor: 1.2,
@@ -66,10 +69,26 @@ class _QuizScreenState extends State<QuizScreen> {
                 Spacer(),
                 ElevatedButton(
                     onPressed: () {
-                      setState(() {
-                        quizIndex++;
-                        selectedAnswerIndex = null;
-                      });
+                      if (allQuiz[quizIndex]
+                              .answerList[selectedAnswerIndex!]
+                              .isCorrect ==
+                          true) {
+                        score += 10;
+                      }
+
+                      if (quizIndex < allQuiz.length - 1) {
+                        setState(() {
+                          quizIndex++;
+                          selectedAnswerIndex = null;
+                        });
+                      } else {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultScreen(
+                                      score: score,
+                                    )));
+                      }
                     },
                     child: Text('Next Quiz')),
                 SizedBox(height: 70),
