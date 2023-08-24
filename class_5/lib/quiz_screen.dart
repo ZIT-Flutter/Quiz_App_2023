@@ -1,6 +1,6 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, use_build_context_synchronously
 
-import 'package:class_3/result_screen.dart';
+import 'result_screen.dart';
 import 'package:flutter/material.dart';
 import 'allquiz.dart';
 
@@ -67,17 +67,28 @@ class _QuizScreenState extends State<QuizScreen> {
                 ),
                 Spacer(),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (allQuiz[quizIndex]
                               .answerList[selectedAnswerIndex!]
                               .isCorrect ==
                           true) {
                         score += 10;
+
+                        setState(() {
+                          selectedColor = Colors.green;
+                        });
+                      } else {
+                        setState(() {
+                          selectedColor = Colors.red;
+                        });
                       }
+
+                      await Future.delayed(Duration(seconds: 2));
 
                       if (quizIndex < allQuiz.length - 1) {
                         setState(() {
                           quizIndex++;
+                          selectedColor = Colors.yellow;
                           selectedAnswerIndex = null;
                         });
                       } else {
