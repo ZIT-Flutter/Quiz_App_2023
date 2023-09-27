@@ -12,6 +12,13 @@ class Answer {
   Answer({required this.answer, required this.isCorrect});
 }
 
+Map<String, dynamic> quizMap = {
+  'question': 'What is the capital of France?',
+  'answerList': [
+    {'answer': 'Berlin', 'isCorrect': false},
+  ]
+};
+
 List<Quiz> allQuiz = [
   Quiz(
     question: 'What is the national animal of Bangladesh?',
@@ -25,7 +32,7 @@ List<Quiz> allQuiz = [
   Quiz(
     question: 'What is the capital of France?',
     answerList: [
-      Answer(answer: 'Berlin', isCorrect: false), 
+      Answer(answer: 'Berlin', isCorrect: false),
       Answer(answer: 'London', isCorrect: false),
       Answer(answer: 'Paris', isCorrect: true),
       Answer(answer: 'Madrid', isCorrect: false),

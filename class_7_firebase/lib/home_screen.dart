@@ -29,12 +29,15 @@ class HomeScreen extends StatelessWidget {
             child: Text('Start Quiz'),
             style: ElevatedButton.styleFrom(shape: StadiumBorder()),
           ),
-          ElevatedButton(
-            onPressed: () {
-              addDataToDB();
-            },
-            child: Text('Add Quiz'),
-            style: ElevatedButton.styleFrom(shape: StadiumBorder()),
+          Padding(
+            padding: const EdgeInsets.all(36.0),
+            child: ElevatedButton(
+              onPressed: () {
+                addDataToDB();
+              },
+              child: Text('Add Quiz'),
+              style: ElevatedButton.styleFrom(shape: StadiumBorder()),
+            ),
           )
         ],
       )),
@@ -44,8 +47,19 @@ class HomeScreen extends StatelessWidget {
   Future<void> addDataToDB() async {
     var collection = await FirebaseFirestore.instance.collection('all_quiz');
 
-    var data = {'quiestion': 'What is the capital Of Bangladesh'};
+    //A Quiz as Map
+    Map<String, dynamic> quizMap = {
+      'question': 'What is the capital of France?',
+      'answerList': [
+        {'answer': 'Berlin', 'isCorrect': false},
+        {'answer': 'London', 'isCorrect': false},
+        {'answer': 'Paris', 'isCorrect': true},
+        {'answer': 'Madrid', 'isCorrect': false},
+      ]
+    };
+    //Simple Data
+    // var data = {'quiestion': 'What is the capital Of Bangladesh'};
 
-    collection.add(data);
+    collection.add(quizMap);
   }
 }
