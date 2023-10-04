@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:class_3/result_screen.dart';
+import 'package:class_4/result_screen.dart';
 import 'package:flutter/material.dart';
 import 'allquiz.dart';
 
