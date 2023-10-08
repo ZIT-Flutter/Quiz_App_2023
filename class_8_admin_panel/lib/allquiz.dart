@@ -12,8 +12,6 @@ class Answer {
   Answer({required this.answer, required this.isCorrect});
 }
 
-
-
 List<Quiz> allQuiz = [
   Quiz(
     question: 'What is the national animal of Bangladesh?',

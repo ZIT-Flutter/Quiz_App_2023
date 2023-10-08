@@ -18,6 +18,11 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
   TextEditingController answer3Controller = TextEditingController();
   TextEditingController answer4Controller = TextEditingController();
 
+  bool isCorrectAnswer1 = false;
+  bool isCorrectAnswer2 = false;
+  bool isCorrectAnswer3 = false;
+  bool isCorrectAnswer4 = false;
+
   @override
   Widget build(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;
@@ -48,7 +53,14 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
               ),
             ),
             SizedBox(width: 10),
-            ElevatedButton(onPressed: () {}, child: Text('True'))
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isCorrectAnswer1 = !isCorrectAnswer1;
+                });
+              },
+              child: Text(isCorrectAnswer1 ? 'True' : 'False'),
+            ),
           ],
         ),
         Row(
@@ -61,7 +73,14 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
               ),
             ),
             SizedBox(width: 10),
-            ElevatedButton(onPressed: () {}, child: Text('True'))
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isCorrectAnswer2 = !isCorrectAnswer2;
+                });
+              },
+              child: Text(isCorrectAnswer2 ? 'True' : 'False'),
+            ),
           ],
         ),
         Row(
@@ -74,7 +93,14 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
               ),
             ),
             SizedBox(width: 10),
-            ElevatedButton(onPressed: () {}, child: Text('True'))
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isCorrectAnswer3 = !isCorrectAnswer3;
+                });
+              },
+              child: Text(isCorrectAnswer3 ? 'True' : 'False'),
+            ),
           ],
         ),
         Row(
@@ -87,12 +113,21 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
               ),
             ),
             SizedBox(width: 10),
-            ElevatedButton(onPressed: () {}, child: Text('True'))
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isCorrectAnswer4 = !isCorrectAnswer4;
+                });
+              },
+              child: Text(isCorrectAnswer4 ? 'True' : 'False'),
+            ),
           ],
         ),
         ElevatedButton(
-            onPressed: () {
-              addQuizToDB();
+            onPressed: () async {
+              await addQuizToDB();
+
+              Navigator.pop(context);
             },
             child: Text('Add to DB'))
       ]),
@@ -106,10 +141,10 @@ class _AddQuizBottomSheetWidgetState extends State<AddQuizBottomSheetWidget> {
     Map<String, dynamic> quizMap = {
       'question': quizController.text,
       'answerList': [
-        {'answer': answer1Controller.text, 'isCorrect': false},
-        {'answer': answer2Controller.text, 'isCorrect': false},
-        {'answer': answer3Controller.text, 'isCorrect': false},
-        {'answer': answer4Controller.text, 'isCorrect': false},
+        {'answer': answer1Controller.text, 'isCorrect': isCorrectAnswer1},
+        {'answer': answer2Controller.text, 'isCorrect': isCorrectAnswer2},
+        {'answer': answer3Controller.text, 'isCorrect': isCorrectAnswer3},
+        {'answer': answer4Controller.text, 'isCorrect': isCorrectAnswer4},
       ]
     };
 

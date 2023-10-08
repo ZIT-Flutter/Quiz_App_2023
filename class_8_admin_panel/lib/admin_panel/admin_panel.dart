@@ -11,17 +11,17 @@ class AdminPanelScreen extends StatelessWidget {
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    isScrollControlled: true,
-                    backgroundColor: Colors.amber.withOpacity(0),
-                    context: context,
-                    builder: (context) => AddQuizBottomSheetWidget());
-              },
-              child: Text('Add Quiz'),
-            )
+                onPressed: () {
+                  showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.amber.withOpacity(0),
+                      context: context,
+                      builder: (context) => AddQuizBottomSheetWidget());
+                },
+                child: Text('Add Quiz'))
           ],
         ),
       ),
