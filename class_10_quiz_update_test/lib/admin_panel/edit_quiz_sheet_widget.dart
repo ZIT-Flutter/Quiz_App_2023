@@ -50,7 +50,7 @@ class _EditQuizBottomSheetWidgetState extends State<EditQuizBottomSheetWidget> {
     print('Device Height = $deviceHeight');
 
     return Container(
-      height: deviceHeight * 0.7,
+      height: deviceHeight * 0.8,
       padding: EdgeInsets.all(32),
       child: ListView(children: [
         TextField(

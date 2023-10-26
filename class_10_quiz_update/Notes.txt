@@ -1,3 +1,0 @@
-//To Delete a Document, search it On Google
-
-how to delete a document from firestore collection using flutter
