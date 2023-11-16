@@ -3,6 +3,7 @@
 // import 'dart:io' show Platform;
 
 import 'package:class_8_admin_panel/firebase_auth/login_page.dart';
+import 'package:class_8_admin_panel/firebase_auth/redirect_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +11,10 @@ import 'package:device_preview/device_preview.dart';
 
 import 'home_screen.dart';
 
-void main() {
+void main() async {
   //Firebase Setup
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   runApp(
     DevicePreview(
       enabled: kIsWeb,
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      home: LoginPage(),
+      home: RedirectPage(),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:class_8_admin_panel/firebase_auth/create_account_page.dart';
+import 'package:class_8_admin_panel/firebase_auth/redirect_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +14,8 @@ class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool loginFailed = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,6 +26,13 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            if (loginFailed == true)
+              Text(
+                'Login Failed,',
+                textScaleFactor: 1.5,
+                style: TextStyle(color: Colors.red),
+              ),
+            SizedBox(height: 16),
             TextField(
               controller: emailController,
               decoration: InputDecoration(hintText: 'Email'),
@@ -31,23 +42,60 @@ class _LoginPageState extends State<LoginPage> {
               obscureText: true,
               decoration: InputDecoration(hintText: 'Password'),
             ),
-            ElevatedButton(onPressed: logIn, child: Text('Login'))
+            Row(
+              children: [
+                Text('Not user? '),
+                TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateAccountPage(),
+                          ));
+                    },
+                    child: Text('Create Account')),
+              ],
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  bool isLoggedIn = await userLogin();
+
+                  emailController.clear();
+                  passwordController.clear();
+
+                  if (isLoggedIn == true) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RedirectPage()),
+                    );
+                  } else {
+                    setState(() {
+                      loginFailed = true;
+                    });
+                  }
+                },
+                child: Text('Login'))
           ],
         ),
       )),
     );
   }
 
-  Future logIn() async {
+  Future<bool> userLogin() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
 
       print('Login Successful');
+
+      return true;
     } catch (error) {
       print(error);
+
       print('Login Failed');
+
+      return false;
     }
   }
 }
