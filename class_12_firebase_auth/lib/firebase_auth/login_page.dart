@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Row(
               children: [
-                Text('Not user? '),
+                Text('Not user?'),
                 TextButton(
                     onPressed: () {
                       Navigator.push(

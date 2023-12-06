@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'package:class_8_admin_panel/firebase_auth/redirect_page.dart';
 import 'package:class_8_admin_panel/user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'admin_panel/admin_panel.dart';
@@ -13,6 +15,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(actions: [
+        IconButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RedirectPage()));
+
+              print('User Logged out');
+            },
+            icon: Icon(Icons.logout))
+      ]),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

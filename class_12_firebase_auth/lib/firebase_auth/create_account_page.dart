@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({super.key});
@@ -12,6 +14,9 @@ class CreateAccountPage extends StatefulWidget {
 class _CreateAccountPageState extends State<CreateAccountPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final ageController = TextEditingController();
 
   bool isSuccess = false;
 
@@ -29,6 +34,35 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             children: [
               Text('Create new account', textScaleFactor: 1.2),
               SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: firstNameController,
+                      decoration: InputDecoration(hintText: 'First Name'),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 32,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: lastNameController,
+                      decoration: InputDecoration(
+                        hintText: 'Last Name',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              TextField(
+                controller: ageController,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly
+                ],
+                decoration: InputDecoration(hintText: 'Age'),
+              ),
               TextField(
                 controller: emailController,
                 decoration: InputDecoration(hintText: 'Email'),
@@ -53,8 +87,23 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               SizedBox(height: 32),
               ElevatedButton(
                   onPressed: () async {
-                    isSuccess = await signUp();
-                    setState(() {});
+                    // isSuccess = await signUp();
+
+                    String? userID = await signUp();
+
+                    if (userID != null) {
+                      Map<String, dynamic> data = {
+                        'name':
+                            '${firstNameController.text} ${lastNameController.text}',
+                        'age': int.parse(ageController.text),
+                      };
+
+                      isSuccess = await updateUserInfo(userID, data);
+
+                      if (isSuccess) {
+                        setState(() {});
+                      }
+                    }
                   },
                   child: Text('Sign up')),
             ],
@@ -64,19 +113,33 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     );
   }
 
-  Future<bool> signUp() async {
+  Future<String?> signUp() async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      var userInfo = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text.trim(),
           password: passwordController.text.trim());
 
-      print('Sign up successful');
+      if (userInfo.user != null) {
+        print('Sign up successful');
 
-      return true;
+        print('User ID : ${userInfo.user!.uid}');
+
+        return userInfo.user!.uid;
+      }
+
+      // return true;
     } on Exception catch (e) {
       print('Sign up failed :$e');
 
-      return false;
+      // return null;
     }
+    return null;
+  }
+
+  Future<bool> updateUserInfo(String uid, Map<String, dynamic> data) async {
+    await FirebaseFirestore.instance.collection('all_user').doc(uid).set(data);
+    print('User Data Updated Successfully');
+
+    return true;
   }
 }
