@@ -141,7 +141,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> uploadScore({required int score}) async {
-    String uid = await FirebaseAuth.instance.currentUser!.uid;
+    String uid = FirebaseAuth.instance.currentUser!.uid;
 
     var time = DateTime.now();
 
@@ -151,14 +151,16 @@ class _QuizScreenState extends State<QuizScreen> {
       ]
     };
 
-    var docRef =
-        await FirebaseFirestore.instance.collection('all_user').doc(uid);
+    await FirebaseFirestore.instance.collection('all_user').doc(uid).update({
+      'scores': FieldValue.arrayUnion([data])
+    });
 
-    await docRef.set(data);
-
-    print('Score is uploaded successfully');
+    // print('Score is uploaded successfully');
   }
 }
+
+
+
 
 // Work 1 --- 1s
 // Work 2 --- 3s

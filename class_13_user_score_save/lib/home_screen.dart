@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:class_8_admin_panel/firebase_auth/redirect_page.dart';
+import 'package:class_8_admin_panel/user_image_upload_screen.dart';
 import 'package:class_8_admin_panel/user_profile_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,18 +16,37 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.red,
+                Colors.orange,
+                Colors.yellow,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        title: Text('Colorful App'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
 
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RedirectPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => RedirectPage()));
 
-              print('User Logged out');
-            },
-            icon: Icon(Icons.logout))
-      ]),
+                print('User Logged out');
+              },
+              icon: Icon(
+                Icons.logout,
+                color: Colors.red,
+              ))
+        ],
+      ),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
