@@ -145,11 +145,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     var time = DateTime.now();
 
-    Map<String, dynamic> data = {
-      'scores': [
-        {'score': score, 'time': time}
-      ]
-    };
+    Map<String, dynamic> data = {'score': score, 'time': time};
 
     await FirebaseFirestore.instance.collection('all_user').doc(uid).update({
       'scores': FieldValue.arrayUnion([data])
